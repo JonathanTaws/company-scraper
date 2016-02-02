@@ -1,3 +1,7 @@
+/**
+ * Plain old Tweet object used to represent properties of a Tweet (on Twitter)
+ * @constructor
+ */
 function Tweet() {
     this.id;
     this.name;

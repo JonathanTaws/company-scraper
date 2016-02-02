@@ -4,6 +4,12 @@ var config = require("../config");
 var jsdom = require("jsdom");
 var LinkedInProfile = require("../model/linkedInProfile");
 
+/**
+ * Return profiles from LinkedIn related to companyQuery, limited to nbProfiles results
+ * @param companyQuery
+ * @param nbProfiles
+ * @param appCallback
+ */
 var getCompanyProfiles = function(companyQuery, nbProfiles, appCallback) {
     var linkedInSearchURL = "";
 
@@ -17,6 +23,8 @@ var getCompanyProfiles = function(companyQuery, nbProfiles, appCallback) {
     }
 
     console.log("Fetching " + linkedInSearchURL);
+
+    // Load LinkedIn search in virtual dom with jQuery
     jsdom.env({
         url: linkedInSearchURL,
         scripts: [config.jQuery.URL],
@@ -27,9 +35,6 @@ var getCompanyProfiles = function(companyQuery, nbProfiles, appCallback) {
 
             console.log("Crawling LinkedIn");
 
-            //$("div.view-more-bar").click();
-
-            // TODO See if we can stop the number of iterations in each
             $("div.entityblock.standalone").each(function (i) {
                 // Retrieve a user's name
                 var anchorName = $(this).find("h3.name > a");
@@ -47,15 +52,16 @@ var getCompanyProfiles = function(companyQuery, nbProfiles, appCallback) {
                 var descriptors = $(this).find("dd.descriptor");
 
                 // Retrieve a user's current location (regional)
-                var location = descriptors.eq(0).text();
+                var location = descriptors.eq(0).text() || "No location fetched";
 
                 // Retrieve a user's field
-                var field = descriptors.eq(1).text();
+                var field = descriptors.eq(1).text() || "No field fetched";
 
+                // Retrieve current and previous companies
                 var table = $(this).find("table");
-                var currentCompanies = table.find("tr:first > td").text();
+                var currentCompanies = table.find("tr:first > td").text() || "No current companies fetched";;
 
-                var previousCompanies = table.find("tr > td").eq(1).text();
+                var previousCompanies = table.find("tr > td").eq(1).text() || "No previous companies fetched";;
 
                 // Create the LinkedInProfile user
                 var profile = new LinkedInProfile();
@@ -79,8 +85,6 @@ var getCompanyProfiles = function(companyQuery, nbProfiles, appCallback) {
             appCallback(profiles);
         }
     });
-
-
 }
 
 module.exports.getCompanyProfiles = getCompanyProfiles;

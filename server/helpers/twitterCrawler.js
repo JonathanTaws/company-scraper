@@ -6,6 +6,12 @@ var request = require("request");
 var async = require("async");
 var Tweet = require("../model/tweet");
 
+/**
+ * Return tweets based on the given companyQuery, limited to nbTweets
+ * @param companyQuery
+ * @param nbTweets
+ * @param appCallback
+ */
 var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
     var twitterSearchURL = "";
 
@@ -19,6 +25,8 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
     }
 
     console.log("Fetching " + twitterSearchURL);
+
+    // Load twitter search in virtual dom with jQuery
     jsdom.env({
         url: twitterSearchURL,
         scripts: [config.jQuery.URL],
@@ -33,7 +41,6 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
 
             console.log("Crawling Twitter");
 
-            // TODO See if we can stop the number of iterations in each
             $("div.tweet.original-tweet").each(function (i) {
                 // Retrieve the tweet's id
                 var id = $(this).attr("data-tweet-id");
@@ -48,8 +55,10 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
                 // Retrieve a user's handle (job)
                 var handle = $(this).find("span.username.js-action-profile-name").text() || "Unknown Twitter handle";
 
+                // Retrieve the content of the tweet
                 var content = $(this).find("p.TweetTextSize.js-tweet-text.tweet-text").ignore("a").text();
 
+                // Retrieve the time at which the tweet was posted
                 var time = $(this).find("a.tweet-timestamp.js-permalink.js-nav.js-tooltip")[0].getAttribute("title");
 
                 // Create the Tweet object
@@ -67,6 +76,7 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
                 return i < nbTweets - 1;
             });
 
+            // Asynchronously add the HTML representation of the tweet for every tweets
             async.forEach(tweets, function(tweet, callback) {
                 getEmbeddedTweetHTML(tweet.id, function(jsonContent) {
                     var embeddedTweet = jsonContent;
@@ -79,7 +89,7 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
                 });
             }, function (err) {
                 if (err) {
-                    console.error(err.message);
+                    console.error("Async foreach error : " + err.message);
                 }
                 console.log(tweets);
                 appCallback(tweets);
@@ -89,6 +99,11 @@ var getCompanyTwitterData = function(companyQuery, nbTweets, appCallback) {
 
 }
 
+/**
+ * Get the HTML to embed the Tweet on a webpage based on its id
+ * @param id
+ * @param callback
+ */
 function getEmbeddedTweetHTML(id, callback) {
     var oEmbedSearchURL = config.twitter.oEmbedURL + "id=" + id;
     request.get(oEmbedSearchURL, function(error, response, body) {

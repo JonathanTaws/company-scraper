@@ -15,6 +15,7 @@ angular.module('companyScraper.search', ['ngRoute', 'ngTwitter', 'angular-loadin
     $scope.showRawContent = false;
     $scope.hasLinkedInData = false;
     $scope.hasTwitterData = false;
+    $scope.search = {};
 
     $scope.searchForCompany = function() {
         // Set the "has" properties to false to clear the previous data
@@ -22,36 +23,27 @@ angular.module('companyScraper.search', ['ngRoute', 'ngTwitter', 'angular-loadin
         $scope.hasTwitterData = false;
 
         // Check if a query was provided
-        if(!$scope.searchQuery || !$scope.searchQuery.length) {
+        if(!$scope.search.query || !$scope.search.query.length) {
             console.log("No search query provided");
             $scope.error = "Please provide a company name to search";
             return;
         }
 
-        var encodedQuery = encodeURIComponent($scope.searchQuery);
+        console.log("Company query to search : " + $scope.search.query);
+        console.log("Number of results to return per source : " + $scope.search.nbResults);
 
         // Fetch data from Twitter & LinkedIn
         getTwitterData();
         getLinkedInData();
 
         /**
-         * Helper function used to return trusted HTML
-         * @param rawContent The HTML raw content to render safe
-         * @returns {*}
-         */
-        $scope.getRawHTML = function(rawContent) {
-            console.log("Called with : " + rawContent);
-            return $sce.trustAsHtml(rawContent);
-        }
-
-        /**
          * Fetches Twitter data based on query and sets DOM accordingly with content
          */
         function getTwitterData() {
-            var twitterURL = 'http://localhost:3000/twitter?company=' + $scope.searchQuery;
+            var twitterURL = 'http://localhost:3000/twitter?company=' + $scope.search.query;
             // If a nb of results was specified
-            if($scope.nbResults) {
-                twitterURL += '&limit=' + $scope.nbResults;
+            if($scope.search.nbResults) {
+                twitterURL += '&limit=' + $scope.search.nbResults;
             }
             $http.get(twitterURL)
                 .success(function(tweets) {
@@ -71,10 +63,10 @@ angular.module('companyScraper.search', ['ngRoute', 'ngTwitter', 'angular-loadin
          * Fetches LinkedIn data based on query and sets DOM accordingly with content
          */
         function getLinkedInData() {
-            var linkedInURL = 'http://localhost:3000/linkedin?company=' + $scope.searchQuery;
+            var linkedInURL = 'http://localhost:3000/linkedin?company=' + $scope.search.query;
             // If a nb of results was specified
-            if($scope.nbResults) {
-                linkedInURL += '&limit=' + $scope.nbResults;
+            if($scope.search.nbResults) {
+                linkedInURL += '&limit=' + $scope.search.nbResults;
             }
             $http.get(linkedInURL)
                 .success(function(profiles) {
@@ -88,6 +80,16 @@ angular.module('companyScraper.search', ['ngRoute', 'ngTwitter', 'angular-loadin
                     console.log("Couldn't reach the server : is it on ? Error : " + error);
                 });
         }
+    }
+
+    /**
+     * Helper function used to return trusted HTML
+     * @param rawContent The HTML raw content to render safe
+     * @returns {*}
+     */
+    $scope.getRawHTML = function(rawContent) {
+        console.log("Called with : " + rawContent);
+        return $sce.trustAsHtml(rawContent);
     }
 
 });

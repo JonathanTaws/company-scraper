@@ -1,3 +1,7 @@
+/**
+ * Plain old LinkedInProfile object used to represent key characteristics of a LinkedIn user
+ * @constructor
+ */
 function LinkedInProfile() {
     this.name;
     this.link;

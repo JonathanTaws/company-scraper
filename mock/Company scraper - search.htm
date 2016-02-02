@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="companyScraper" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="companyScraper" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="companyScraper" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html style="" ng-app="companyScraper" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths ng-scope" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Company scraper - search</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/normalize.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/main.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/loading-bar.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/bootstrap.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/font-awesome.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/theme_flaty.css">
+  <link rel="stylesheet" href="Company%20scraper%20-%20search_fichiers/app.css">
+  <script src="Company%20scraper%20-%20search_fichiers/widgets.js" id="twitter-wjs"></script><script src="Company%20scraper%20-%20search_fichiers/modernizr-2.js"></script>
+  <!--&lt;!&ndash; To include Twitter API (for oEmbed) &ndash;&gt;-->
+  <!--<script>window.twttr = (function(d, s, id) {-->
+  <!--var js, fjs = d.getElementsByTagName(s)[0],-->
+            <!--t = window.twttr || {};-->
+    <!--if (d.getElementById(id)) return t;-->
+    <!--js = d.createElement(s);-->
+    <!--js.id = id;-->
+    <!--js.src = "https://platform.twitter.com/widgets.js";-->
+    <!--fjs.parentNode.insertBefore(js, fjs);-->
+
+    <!--t._e = [];-->
+    <!--t.ready = function(f) {-->
+      <!--t._e.push(f);-->
+    <!--};-->
+
+    <!--return t;-->
+  <!--}(document, "script", "twitter-wjs"));-->
+  <!--</script>-->
+
+<script src="Company%20scraper%20-%20search_fichiers/tweet.js" async="" charset="utf-8" type="text/javascript"></script></head>
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="container">
+    <h1>Company Scraper - @365Talents</h1>
+
+    <!-- ngView:  --><div class="ng-scope" ng-view=""><!-- Search input -->
+<form class="company-search-container form-group ng-valid ng-scope ng-dirty ng-valid-parse ng-submitted">
+    <input value="acc" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" id="company-search-input" placeholder="Search for a company, e.g. Allianz" ng-model="searchQuery" type="text">
+    <button id="company-search-button" class="btn btn-default" type="submit" ng-click="searchForCompany()">Submit</button>
+    <div ng-model="search.nbResults" value="5" max="25" ng-touch-spin="" type="text" class="input-group ng-scope ng-dirty ng-valid ng-valid-parse">  <span class="input-group-btn" ng-show="!verticalButtons">    <button type="button" class="btn btn-default" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()"><i class="fa fa-minus"></i></button>  </span>  <span class="input-group-addon ng-binding ng-hide" ng-show="prefix" ng-bind="prefix"></span>  <input value="25" ng-model="val" class="form-control ng-pristine ng-untouched ng-valid" ng-change="updateValue()" ng-blur="handleEmptyValue()" ng-focus="focus()" type="text">  <span class="input-group-addon ng-binding ng-hide" ng-show="postfix" ng-bind="postfix"></span>  <span class="input-group-btn" ng-show="!verticalButtons">    <button type="button" class="btn btn-default" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()"><i class="fa fa-plus"></i></button>  </span></div>
+</form>
+
+<!-- Error message -->
+<!-- ngIf: error -->
+
+<!-- Results from query -->
+<div class="data-result ng-scope">
+    <!-- Twitter results -->
+    <div class="row">
+        <!-- ngIf: hasTwitterData --><div class="twitter-container col-md-6 ng-scope" ng-if="hasTwitterData">
+            <div class="twitter-header">
+                <img id="twitter-logo" src="Company%20scraper%20-%20search_fichiers/twitter-logo.png"><h2 id="twitter-text">Tweets</h2>
+            </div>
+            <div class="twitter-data">
+                <!-- ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693252315978014720" style="position: static; visibility: visible; display: block; width: 500px; height: 208px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693772530688065536" style="position: static; visibility: visible; display: block; width: 500px; height: 322px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-1" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693682006031474688" style="position: static; visibility: visible; display: block; width: 500px; height: 579px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-2" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693545598255919104" style="position: static; visibility: visible; display: block; width: 500px; height: 556.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-3" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693540955715211267" style="position: static; visibility: visible; display: block; width: 500px; height: 556.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-4" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="693012766009991168" style="position: static; visibility: visible; display: block; width: 500px; height: 368.183px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-5" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="692791805071474692" style="position: static; visibility: visible; display: block; width: 500px; height: 185.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-6" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="692667198255538176" style="position: static; visibility: visible; display: block; width: 500px; height: 185.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-7" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="692432000750391299" style="position: static; visibility: visible; display: block; width: 500px; height: 543.35px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-8" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="692429078004142082" style="position: static; visibility: visible; display: block; width: 500px; height: 554.2px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-9" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="692376886626906113" style="position: static; visibility: visible; display: block; width: 500px; height: 556.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-10" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="691961841023631361" style="position: static; visibility: visible; display: block; width: 500px; height: 185.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-11" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="691698961900400640" style="position: static; visibility: visible; display: block; width: 500px; height: 534.2px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-12" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="691583813831516160" style="position: static; visibility: visible; display: block; width: 500px; height: 485.85px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-13" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="691458532307111936" style="position: static; visibility: visible; display: block; width: 500px; height: 556.6px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-14" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="690882624072581120" style="position: static; visibility: visible; display: block; width: 500px; height: 571.7px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-15" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets --><div class="twitter-tweet ng-scope" ng-repeat="tweet in tweets">
+                    <div twitter-widget-id="tweet.id" class="ngtweet-wrapper ng-isolate-scope" ng-transclude=""><iframe title="Twitter Tweet" data-tweet-id="690494958499930112" style="position: static; visibility: visible; display: block; width: 500px; height: 508.25px; padding: 0px; border: medium none; max-width: 100%; min-width: 220px; margin-top: 10px; margin-bottom: 10px;" class="twitter-tweet twitter-tweet-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-16" frameborder="0"></iframe></div>
+                </div><!-- end ngRepeat: tweet in tweets -->
+            </div>
+        </div><!-- end ngIf: hasTwitterData -->
+
+        <!-- LinkedIn results -->
+        <!-- ngIf: hasLinkedInData --><div class="linkedin-container col-md-6 ng-scope" ng-if="hasLinkedInData">
+            <div class="linkedin-header">
+                <img id="linkedin-logo" src="Company%20scraper%20-%20search_fichiers/linkedin-logo.png"><h2 id="linkedin-text">LinkedIn profiles</h2>
+            </div>
+            <div class="linkedin-data">
+                <!-- ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/saira-nikhat-imam-768b9446?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/saira-nikhat-imam-768b9446?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAazAAAAJDBmNGZiZGUzLWE1ZjAtNDQ0MC04MjA4LTAzYWM1.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAazAAAAJDBmNGZiZGUzLWE1ZjAtNDQ0MC04MjA4LTAzYWM1MjRiNjRjYg.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Saira Nikhat Imam</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Proposal Writer at Freelance Proposal Writer</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Hyderabad , Inde</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Technologies et services de l’information</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Proposal
+ Writer chez Freelance Proposal Writer, Technical Writer chez Freelance 
+Technical Writer, Voice and Accent Assessor chez Voice and...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Freelance
+ Training Consultant chez nhance Engineering Systems, Business 
+Communication Trainer -Hyderabad chez Seal Infotech, Training...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/marleen-tenbergen-bb418568?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/marleen-tenbergen-bb418568?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">Marleen Tenbergen</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Content developer bij Junior Einstein BV</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Enschede , Pays-Bas</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Formation primaire/secondaire</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Content
+ developer bij Junior Einstein chez Junior Einstein BV, Leerkracht groep
+ 5. chez OBS Bargerpaske, Invalleerkracht bij Pon Primair...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Onderwijsassistent
+ groep 3/4/5 chez SBO Ludgerus, Stages en projecten chez Hogeschool van 
+Arnhem en Nijmegen (HAN), Onderwijsassistent bij...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/silviapauli?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/silviapauli?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/3b650bd.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/1/005/086/04b/3b650bd.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Silvia Pauli</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">General Manager at Accent Jobs</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Bruxelles , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">General Manager Accent Construct chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Area
+ Sales Director Accent Construct chez Accent Jobs, Area Sales Director 
+Accent Jobs chez Accent Jobs, Account Manager chez Accent Jobs,...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/elocution?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/elocution?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/3d6d9d0.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/6/000/25b/3e2/3d6d9d0.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Helen Hendrickson</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">ELOCUTION ACCENT AND VOICE SME at CE</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Birmingham, Royaume-Uni</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Formation professionnelle et coaching</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Senior
+ Consultant chez THE SPEECH SPECIALIST Elocution accent reduction,voice 
+and communication consultsnt, ELOCUTION ACCENT AND VOICE SME...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Session
+ Saxophonist/Music industry ( Reggae ) management (Global ) chez 
+nuff_muff musik management, Management Consultant chez Lectus Ltd,...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/alison-pitman-8139563?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/alison-pitman-8139563?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/2afd1d8.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/3/000/0c9/2d4/2afd1d8.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Alison Pitman</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">British Accent Female Voiceover at British Accent Female Voiceover Talent</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Bristol, Royaume-Uni</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Médias en ligne</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">British
+ Accent Female Voiceover Artist chez Alison Pitman Voiceover Services, 
+Providing Audio and Video training materials to help improve...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Location Manager/ Location Assistant chez Various Film Companies</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/nico-demuyser-2aa05460?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/nico-demuyser-2aa05460?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAZKAAAAJGI5N2Y0ZGQwLTEwODMtNGZjOS1iNGIxLWY2ZGJi.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAZKAAAAJGI5N2Y0ZGQwLTEwODMtNGZjOS1iNGIxLWY2ZGJiMmUyMTIxOQ.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Nico Demuyser</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Senior Consultant National Accounts Brussels - Wallonia at Accent Jobs</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Bruxelles , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Senior
+ Consultant Accent National Accounts Brussels - Wallonia (Select - 
+Industry - Teletalent) chez Accent Jobs, Junior Consultant Accent...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Customer service agent chez Brussels Airlines</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/veroniquevullo?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/veroniquevullo?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/11375ac.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/1/000/109/111/11375ac.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Veronique Vullo</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Sales Driven Coach &amp; People Manager</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Gent , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Recrutement</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Senior Sales Coach Accent Business School chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Sales
+ Manager chez Focus HR Group, Area Sales Director chez Accent Jobs for 
+People, Sales Coach Accent Business School chez Accent Jobs,...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/aur%C3%A9lie-garau-7aa79052?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/aur%C3%A9lie-garau-7aa79052?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAWjAAAAJDhjZjQ5ZTkzLTI2ZGItNGY4ZS05ZGYwLWYwNjIy.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAWjAAAAJDhjZjQ5ZTkzLTI2ZGItNGY4ZS05ZGYwLWYwNjIyYmYyMjQxNg.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Aurélie Garau</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Sales Consultant at Accent. Logistics</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Bruxelles , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Sales Consultant, Accent. Logistics chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Sales
+ Consultant, Technical Forces chez Accent Jobs, Senior Consultant chez 
+Accent Jobs for People, Junior Consultant Accent Financial...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/julie-henry-b1541142?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/julie-henry-b1541142?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAZ5AAAAJDdhY2FkNGJiLWFhNDQtNGUzMC05MTNkLTAxY2Mx.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAZ5AAAAJDdhY2FkNGJiLWFhNDQtNGUzMC05MTNkLTAxY2MxYzRkYjRkZA.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Julie Henry</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Junior Account Manager chez Accent Jobs</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Liège , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Recrutement</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Account Manager - Accent Industry Liège chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Sales
+ Consultant - Accent Industry Liège chez Accent Jobs, Recruitment 
+Consultant - Accent Industry Liège chez Accent Jobs, Commercial...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/ramona-dillen-a8616b106?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/ramona-dillen-a8616b106?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAWGAAAAJDEyYjAwMTM5LWYxMzYtNDFhOS1iOTE4LTNiNTdj.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAWGAAAAJDEyYjAwMTM5LWYxMzYtNDFhOS1iOTE4LTNiNTdjYzA0MjIwZA.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Ramona Dillen</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Sales Consultant Accent Logistics</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Antwerp , Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Sales Consultant Accent Logistics chez Accent Jobs, Expert consultant chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Senior consultant chez Accent Jobs, Junior consultant chez Accent Jobs</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/ruth-joselson-a11a4779?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/ruth-joselson-a11a4779?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">Ruth Joselson</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Owner/teacher at Foreign Accent Reduction of New Jersey</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de New York City , États-Unis</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Relations publiques et communication</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Owner/teacher chez Foreign Accent Reduction of New Jersey</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies"></span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/erin-bailey-conroy-a9b08475?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/erin-bailey-conroy-a9b08475?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAZbAAAAJGM5ZTdjNWJlLTU3MDktNDZjOS05NDg4LWM2Yzg2.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAZbAAAAJGM5ZTdjNWJlLTU3MDktNDZjOS05NDg4LWM2Yzg2NGU5MWVkZg.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Erin Bailey (Conroy)</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Speech Language Pathology Graduate Student</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Chicago, États-Unis</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Hôpitaux et centres de soins</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Accent Reduction Specialist chez Accent Pros, Inc.</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Speech
+ Language Pathology - Graduate Student Clinician chez Ottawa Elementary 
+School, Speech Language Pathology - Graduate Student...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/shane-salter-06497826?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/shane-salter-06497826?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">shane salter</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">General Manager-Accent Brands at Accent Group PTY Ltd</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Melbourne , Australie</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Commerce de gros</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">General Manager-Accent Brands chez Accent Group PTY Ltd</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Brand
+ Manager-Australasia(Skechers) chez Accent Group Pty Ltd, Sales 
+Manager-Skechers chez Accent Group NZ Ltd, Sales Manager chez AGR...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/tamaralemey?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/tamaralemey?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAZ-AAAAJGYxNjQ4ZDUwLWNkMjItNDVlZC04OWRlLWIxYmVh.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAZ-AAAAJGYxNjQ4ZDUwLWNkMjItNDVlZC04OWRlLWIxYmVhY2M0NTY5MQ.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Tamara Lemey</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Business Unit Manager Accent Payroll België bij Accent Jobs</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Bruges, Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Business Unit Manager Accent Payroll België chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">gedelegeerd bestuurder chez Just Work, Director Operations chez Just Work, area sales director chez Accent Jobs</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/lindsay-rainbird-1a01137a?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/lindsay-rainbird-1a01137a?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/014952e.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/7/005/00a/0b9/014952e.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Lindsay Rainbird</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Regional Sales Manager at Accent Inns</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Colombie-Britannique, Canada</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Hôtellerie et hébergement</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Regional Sales Manager Accent Inns and Hotel Zed chez Accent Inns</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Manager
+ of Corporate and Business Development chez Prestige Hotels &amp;amp; 
+Resorts, Quality Assurance Supervisor chez Accent Inns, Senior...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/adonaleonard?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/adonaleonard?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/1247d38.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/2/000/031/3aa/1247d38.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Adona Leonard</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">CEO and Owner of ACCe'NT Team Financial Services at ACCe'NT Team Financial Services</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Washington D.C. Metro , États-Unis</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Assurances</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">CEO and Owner of ACCe&amp;#39;NT Team Financial Services chez ACCe&amp;#39;NT Team Financial Services</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Owner chez ACCe&amp;#39;NT Team Financial Services</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/vickyrogge?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/vickyrogge?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/21a8cdc.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/4/005/095/1a7/21a8cdc.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Vicky Rogge</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Senior consultant bij Accent Jobs bij Accent Jobs</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Bruges, Belgique</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Ressources humaines</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Senior consultant bij Accent Jobs chez Accent Jobs</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Junior Consultant chez Accent Jobs</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/miranda-mayes-54080210?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/miranda-mayes-54080210?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">Miranda Mayes</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Director at Accent</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Edinburgh, Royaume-Uni</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Études de marché</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Director, Head of Accent Scotland chez Accent MR</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Senior Research Executive chez Accent, Research Executive chez IDC</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/ricki-rovira-rovira-9b777123?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/ricki-rovira-rovira-9b777123?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/1af8d0d.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/4/000/12f/1a5/1af8d0d.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Ricki Rovira Rovira</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">--</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Barcelone, Espagne</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Marketing et publicité</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">•Responsable Departamento Diseño en Accent Graphics, Inc chez Accent graphic</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies"></span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/kath-ward-98897864?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/kath-ward-98897864?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">Kath Ward</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Area Housing Officer</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Nottingham, Royaume-Uni</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Associations et organisations sociales et syndicales</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Accent Nene chez Accent Nene</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Senior Resident Involvement Officer chez Accent Nene, Tenant Liaison Coordinator chez Peaks &amp;amp; Plains Housing Trust</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/rtn-bharati-iyer-a4aa5818?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/rtn-bharati-iyer-a4aa5818?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/09bea89.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/2/005/009/2b7/09bea89.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Rtn. Bharati Iyer</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Freelance trainer</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Chennai , Inde</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Administration scolaire et universitaire</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Freelance
+ Trainer chez Freelance training, Consultant Communications Trainer chez
+ Mphasis ( Hewlitt Packard Group), Consultant...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Voice
+ and Accent Trainer chez Harland Clarke, Corporate Trainer chez Infosys 
+Limited, Corporate Trainer chez Maersk., Corporate Trainer...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/susanryanconfidentvoice?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/susanryanconfidentvoice?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/AAEAAQAAAAAAAAbcAAAAJDRjY2EzMTcwLTlmYzEtNDMzMy04MjZiLTQwYzky.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAbcAAAAJDRjY2EzMTcwLTlmYzEtNDMzMy04MjZiLTQwYzkyNDY2ZGM0MA.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Susan Ryan</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Accent Reduction Coach helping international professionals speak clear and engaging American English</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Daytona Beach, Floride , États-Unis</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Formation professionnelle et coaching</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">American Accent &amp;amp; Accent Reduction Coach chez Confident Voice American English Pronunciation &amp;amp; Accent Reduction</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">VP
+ Education chez Toastmasters Club Delray Newsmakers, Professional 
+Development Specialist &amp;amp; Teacher Coach chez Carlos Rosario...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/surekha-mercy-84270326?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/surekha-mercy-84270326?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/0666e08.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/5/005/087/1e9/0666e08.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Surekha Mercy</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">BPO Training Professional / Voice and Accent Trainer</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Mumbai , Inde</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Technologies et services de l’information</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Behavioural/ Voice and Accent Trainer chez Freelance Voice and Accent / Behavioural Trainer</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Voice and Accent Trainer chez Implicit Solutions</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/kbobyn?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/kbobyn?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/ghost_person_100x100_v1.png" class="linkedin-image" ng-src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_100x100_v1.png"><span class="ng-binding" ng-bind="linkedInProfile.name">Katherine Bobyn</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Landscape and Garden Design CGD, BSc, BEd</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Vancouver , Canada</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Design</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Outdoor
+ Living Space Designer chez Terra Cucina - Outdoor Patio, Rooftop and 
+Kitchen Design, Accent Reduction Instruction chez Accent...</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">BC
+ Certified ESL Instructor: Upper Intermediate Listening Skills, 
+Pronunciation and Grammar chez Vancouver English Centre, Tesl 
+Certified...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles --><div class="linkedin-profile ng-scope" ng-repeat="linkedInProfile in linkedInProfiles">
+                    <h4 class="linkedin-name">
+                        <a href="https://www.linkedin.com/in/josef-addleman-b2a88b41?trk=seokp-title_posts_secondary_cluster_res_author_name" ng-href="https://www.linkedin.com/in/josef-addleman-b2a88b41?trk=seokp-title_posts_secondary_cluster_res_author_name" class="linkedin-image"><img src="Company%20scraper%20-%20search_fichiers/02d70a5.jpg" class="linkedin-image" ng-src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/1/000/104/245/02d70a5.jpg"><span class="ng-binding" ng-bind="linkedInProfile.name">Josef Addleman</span></a>
+                    </h4>
+
+                    <div>
+                        <b><span class="ng-binding" ng-bind="linkedInProfile.headline">Masters Program, Institute of Cognitive Science, Carleton University</span></b>
+                        <ul>
+                            <li>Location : <span class="ng-binding" ng-bind="linkedInProfile.location">Région de Ottawa , Canada</span></li>
+                            <li>Field of study : <span class="ng-binding" ng-bind="linkedInProfile.field">Enseignement supérieur</span></li>
+                            <li>Current companies : <span class="ng-binding" ng-bind="linkedInProfile.currentCompanies">Founder / Accent Reduction Specialist chez NextStage Accent Reduction</span></li>
+                            <li>Previous companies : <span class="ng-binding" ng-bind="linkedInProfile.previousCompanies">Technical
+ Specialist/Consultant chez Xcellence Inc., English Teacher, specialist 
+in accent reduction chez RCIIS, Performer, Teacher, Coach...</span></li>
+                        </ul>
+                    </div>
+                </div><!-- end ngRepeat: linkedInProfile in linkedInProfiles -->
+            </div>
+        </div><!-- end ngIf: hasLinkedInData -->
+    </div>
+</div>
+
+<!-- Raw content -->
+<!-- ngIf: showRawContent -->
+</div>
+
+    <div class="footer">
+      <img id="talents-logo" src="Company%20scraper%20-%20search_fichiers/365Talents-logo.png">
+      <span> - Created by Jonathan Taws</span>
+    </div>
+  </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="Company%20scraper%20-%20search_fichiers/angular.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/angular-sanitize.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/angular-route.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/ng-twitter-api.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/sha1.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/loading-bar.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/ngtweet.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/ngTouchSpin.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/app.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/search.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/version.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/version-directive.js"></script>
+  <script src="Company%20scraper%20-%20search_fichiers/interpolate-filter.js"></script>
+
+
+<iframe style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" allowfullscreen="true" allowtransparency="true" scrolling="no" id="rufous-sandbox" frameborder="0"></iframe></body></html>

@@ -1,9 +1,9 @@
 <!-- Search input -->
-<div class="company-search-container form-group">
-    <input class="form-control" id="company-search-input" type="text" placeholder="Search for a company, e.g. Allianz" ng-model="searchQuery">
+<form class="company-search-container form-group">
+    <input class="form-control" id="company-search-input" type="text" placeholder="Search for a company, e.g. Allianz" ng-model="search.query">
     <button id="company-search-button" class="btn btn-default" type="submit" ng-click="searchForCompany()" >Submit</button>
-    <input id="nb-results-input" type="text" ng-model="nbResults" value="5" min="0" max="25" ng-touch-spin>
-</div>
+    <span>Number of results per source :</span><input id="nb-results-input" type="text" ng-model="search.nbResults" value="5" max="25" ng-touch-spin>
+</form>
 
 <!-- Error message -->
 <div ng-if="error">
@@ -16,35 +16,31 @@
 <!-- Results from query -->
 <div class="data-result">
     <!-- Twitter results -->
-    <div class="twitter-container" ng-if="hasTwitterData">
-        <div class="twitter-header">
-            <img id="twitter-logo" src="img/twitter-logo.png" /><h2 id="twitter-text">Tweets</h2>
-        </div>
-        <div class="twitter-data">
-            <div class="twitter-tweet" ng-repeat="tweet in tweets">
-                <twitter-widget twitter-widget-id="tweet.id"></twitter-widget>
+    <div class="row">
+        <div class="twitter-container col-md-6" ng-if="hasTwitterData">
+            <div class="twitter-header">
+                <img id="twitter-logo" src="img/twitter-logo.png" /><h2 id="twitter-text">Tweets</h2>
+            </div>
+            <div class="twitter-data">
+                <div class="twitter-tweet" ng-repeat="tweet in tweets">
+                    <twitter-widget twitter-widget-id="tweet.id"></twitter-widget>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- LinkedIn results -->
-    <div class="linkedin-container" ng-if="hasLinkedInData">
-        <div class="linkedin-header">
-            <img id="linkedin-logo" src="img/linkedin-logo.png" /><h2 id="linkedin-text" >LinkedIn profiles</h2>
-        </div>
-        <div class="linkedin-data">
-            <div class="linkedin-profile" ng-repeat="linkedInProfile in linkedInProfiles">
-                <a ng-href="{{ linkedInProfile.link }}" class="linkedin-image">
-                    <img ng-src="{{ linkedInProfile.image }}" />
-                </a>
-
-                <div>
+        <!-- LinkedIn results -->
+        <div class="linkedin-container col-md-6" ng-if="hasLinkedInData">
+            <div class="linkedin-header">
+                <img id="linkedin-logo" src="img/linkedin-logo.png" /><h2 id="linkedin-text" >LinkedIn profiles</h2>
+            </div>
+            <div class="linkedin-data">
+                <div class="linkedin-profile" ng-repeat="linkedInProfile in linkedInProfiles">
                     <h4 class="linkedin-name">
-                        <a ng-href="{{ linkedInProfile.link }}"><span ng-bind="linkedInProfile.name"></span></a>
+                        <a ng-href="{{ linkedInProfile.link }}" class="linkedin-image"><img class="linkedin-image" ng-src="{{ linkedInProfile.image }}" /><span ng-bind="linkedInProfile.name"></span></a>
                     </h4>
 
                     <div>
-                        <span ng-bind="linkedInProfile.headline"></span>
+                        <b><span ng-bind="linkedInProfile.headline"></span></b>
                         <ul>
                             <li>Location : <span ng-bind="linkedInProfile.location"></span></li>
                             <li>Field of study : <span ng-bind="linkedInProfile.field"></span></li>
