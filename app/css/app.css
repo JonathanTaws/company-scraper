@@ -1,0 +1,77 @@
+body {
+  margin-left: 10px;
+}
+
+.company-search-container {
+  margin-top: 10px;
+}
+
+#company-search-input {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+  width: 90%;
+}
+
+#nb-results-input {
+  width: 10%;
+}
+
+#company-search-button {
+  display: inline-block;
+}
+
+.data-container {
+  float: left;
+  clear: none;
+}
+
+#twitter-logo {
+  height: 50px;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+#twitter-text {
+  display: inline-block;
+}
+
+.twitter-header {
+  display: inline-block;
+}
+
+.twitter-container {
+  margin-left: 15px;
+}
+
+#linkedin-logo {
+  height: 35px;
+  display: inline-block;
+  margin-bottom: 15px;
+  margin-right: 5px;
+}
+
+#linkedin-text {
+  display: inline-block;
+}
+
+.linkedin-container {
+
+}
+
+.linkedin-header {
+  display: inline-block;
+}
+
+.footer {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+
+#talents-logo {
+  height: 90px;
+}
+
+
