@@ -31,10 +31,6 @@
   display: inline-block;
 }
 
-.twitter-container {
-  margin-left: 15px;
-}
-
 #linkedin-logo {
   height: 35px;
   display: inline-block;
@@ -54,6 +50,7 @@
   border: 1px solid #e1e8ed;
   border-radius: 4px;
   padding: 10px;
+  margin-bottom: 5px;
 }
 
 .linkedin-image {
@@ -62,6 +59,7 @@
 
 .linkedin-header {
   display: inline-block;
+  margin-bottom: 18px;
 }
 
 .footer {
